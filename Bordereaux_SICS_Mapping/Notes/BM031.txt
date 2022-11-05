@@ -1,0 +1,386 @@
+﻿using System;
+using System.Data;
+
+namespace Bordereaux_SICS_Mapping.BAL
+{
+    class BM031
+    {
+        public string fn_process(string str_raw, string str_sicstemp, string str_sheet, string str_saved, string str_savef, string str_gender = "", bool boo_open = false)
+        {
+            #region NOTES
+            //Declaration for exception line debugging on excel
+            #endregion
+            int rowcount = 1;
+
+            try
+            {
+                Helper objHlpr = new Helper();
+                DataTable objdt_template = new DataTable();
+
+
+
+                objdt_template = objHlpr.dt_formtemplate(str_sicstemp, str_sheet);
+
+                Microsoft.Office.Interop.Excel.Application eapp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook wbraw = eapp.Workbooks.Open(str_raw);
+
+
+                #region NOTES
+                //Get year
+                Microsoft.Office.Interop.Excel.Worksheet wsraw = wbraw.Sheets["TRAD"];
+                string year = wsraw.Cells[4, 8].Text.ToString();
+                year = year.Substring(year.Length - 4, 4);
+                #endregion
+
+                wsraw = wbraw.Sheets[str_sheet];
+
+                Microsoft.Office.Interop.Excel.Range rawrange = wsraw.UsedRange;
+
+                wsraw = objHlpr.fn_extendwidth(wsraw);
+
+                int erawrow = rawrange.Rows.Count;
+                int erawcol = rawrange.Columns.Count;
+                int prawrow = 1;
+
+                string polnum = wsraw.Cells[prawrow, 1].Text.ToString();
+                string trancode = wsraw.Cells[prawrow, 1].Text.ToString();
+                string cert = wsraw.Cells[prawrow, 2].Text.ToString();
+                string eff = wsraw.Cells[prawrow, 3].Text.ToString();
+                string prem = wsraw.Cells[prawrow, 4].Text.ToString();
+                string life = wsraw.Cells[prawrow, 5].Text.ToString();
+                string extra = wsraw.Cells[prawrow, 6].Text.ToString();
+                string adb = wsraw.Cells[prawrow, 7].Text.ToString();
+                string wpd = wsraw.Cells[prawrow, 8].Text.ToString();
+                string total = wsraw.Cells[prawrow, 10].Text.ToString();
+                string initial = wsraw.Cells[prawrow, 11].Text.ToString();
+                string amount = wsraw.Cells[prawrow, 12].Text.ToString();
+
+                string currency = string.Empty;
+                string TRANCODE = string.Empty;
+                string[] comparestring = new string[] { "" };
+                bool findboo = false;
+                string pstart1;
+                int storee;
+                bool chck;
+                decimal classific;
+
+                polnum = objHlpr.fn_stringcleanup(polnum);
+                trancode = objHlpr.fn_stringcleanup(trancode);
+                cert = objHlpr.fn_stringcleanup(cert);
+                eff = objHlpr.fn_stringcleanup(eff);
+                prem = objHlpr.fn_stringcleanup(prem);
+                life = objHlpr.fn_stringcleanup(life);
+                extra = objHlpr.fn_stringcleanup(extra);
+                polnum = objHlpr.fn_stringcleanup(polnum);
+                adb = objHlpr.fn_stringcleanup(adb);
+                wpd = objHlpr.fn_stringcleanup(wpd);
+                total = objHlpr.fn_stringcleanup(total);
+                initial = objHlpr.fn_stringcleanup(initial);
+                amount = objHlpr.fn_stringcleanup(amount);
+
+                #region Data Processing
+                while (rowcount != erawrow + 2)
+                {
+                    chck = int.TryParse(polnum, out storee);
+                    polnum = objHlpr.fn_stringcleanup(polnum);
+
+
+                    if (polnum == string.Empty && chck == false)
+                    {
+                        findboo = false;
+
+                        comparestring = new string[] { "FIRST", "NEW" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TNEWBUS";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "RENEWAL" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TRENEW";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "REINSTATEMENT", "REINSTATED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TREINS";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "TERMINATION", "TERMINATED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TCONTER";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "CANCELLED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TCANCINC";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "EXPIRY", "EXPIRED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TEXPIRY";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "EXTENDED", "TERM", "ETI" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TEXTTER";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "MATURITY", "MATURED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TFULLMAT";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "FULL PAID-UP", "FULL PAID UP", "PAID UP", "FULLY PAID-UP", "FULLY PAID-UP" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TFULLPU";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "FULL RECAPTURE", "RECAPTURED", "RECAP", "PARTIAL RECAP", "FULL RECAP", "PARTIAL RECAPTURED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TFULLREC";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "SURRENDERED", "SURRENDER", "FULL SURRENDERED" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TFULLSUR";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "LAPSE", "LAPSED", "LAPSES/SURRENDERS" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "TLAPSE";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+                        comparestring = new string[] { "RECOVERIES", "OTHERS" };
+                        foreach (string s in comparestring)
+                        {
+                            switch (polnum.Contains(s))
+                            {
+                                case true:
+                                    TRANCODE = "ADJUST";
+                                    findboo = true;
+                                    break;
+                            }
+                        }
+
+                        if (!findboo)
+                        {
+                            TRANCODE = "ADJUST";
+                        }
+
+                        if (curr.ToUpper().Contains("PESO"))///////////////////////////////////////////////////////////
+                        {
+                            currency = "PHP";
+                        }
+                        else if ((curr.ToUpper().Contains("DOLLAR")) || (curr.ToUpper().Contains("$")))
+                        {
+                            currency = "USD";
+                        }
+                    }
+                    else if (polnum != string.Empty && chck == true)
+                    {
+                        System.Data.DataRow dtworkRow;
+                        dtworkRow = objdt_template.NewRow();
+
+                        dtworkRow[0] = "NR" + polnum;
+                        //dtworkRow[5] = code.ToString();
+                        //dtworkRow[8] = "SURPLUS";
+                        //dtworkRow[9] = "PAFM";
+                        //dtworkRow[10] = "S";
+                        //dtworkRow[13] = "IND";
+                        //dtworkRow[14] = "T";
+                        //dtworkRow[19] = reins.ToString();
+                        //dtworkRow[22] = reins.ToString();
+                        //dtworkRow[20] = pstart.ToString();
+                        //dtworkRow[24] = "YLY";
+                        //dtworkRow[25] = orig.ToString();
+                        //dtworkRow[26] = ceded.ToString();
+                        //dtworkRow[28] = retention.ToString();
+                        //dtworkRow[29] = "NATREID";
+
+                        if (gender.ToUpper().Contains("FEMALE"))
+                        {
+                            dtworkRow[36] = "F";
+
+                        }
+                        else
+                        {
+                            dtworkRow[36] = "M";
+                        }
+
+                        dtworkRow[38] = "NONE";
+                        dtworkRow[39] = rating.ToString();
+                        dtworkRow[23] = currency;
+
+
+                        if (pstart.Substring(pstart.Length - 2, 2).Contains("00") || (pstart.Substring(pstart.Length - 2, 2).Contains("01")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("02")) || (pstart.Substring(pstart.Length - 2, 2).Contains("03")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("04")) || (pstart.Substring(pstart.Length - 2, 2).Contains("05")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("06")) || (pstart.Substring(pstart.Length - 2, 2).Contains("07")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("08")) || (pstart.Substring(pstart.Length - 2, 2).Contains("09")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("10")) || (pstart.Substring(pstart.Length - 2, 2).Contains("11")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("12")) || (pstart.Substring(pstart.Length - 2, 2).Contains("13")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("14")) || (pstart.Substring(pstart.Length - 2, 2).Contains("15")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("16")) || (pstart.Substring(pstart.Length - 2, 2).Contains("17")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("18")) || (pstart.Substring(pstart.Length - 2, 2).Contains("19")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("20")) || (pstart.Substring(pstart.Length - 2, 2).Contains("21")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("22")) || (pstart.Substring(pstart.Length - 2, 2).Contains("23")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("24")) || (pstart.Substring(pstart.Length - 2, 2).Contains("25")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("26")) || (pstart.Substring(pstart.Length - 2, 2).Contains("27")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("28")) || (pstart.Substring(pstart.Length - 2, 2).Contains("29")) ||
+                          (pstart.Substring(pstart.Length - 2, 2).Contains("30")))
+                        {
+
+                            pstart1 = "20" + pstart.Substring(pstart.Length - 2, 2);
+                            int pstart11;
+                            pstart11 = Convert.ToInt32(pstart1);
+                            int year1;
+                            year1 = Convert.ToInt32(year);
+
+                            if (year1 >= pstart11)
+                            {
+                                dtworkRow[21] = "TRENEW";
+                                dtworkRow[58] = "4001";
+                                dtworkRow[59] = prem.ToString();
+                            }
+
+                            else if (year1 < pstart11)
+                            {
+                                dtworkRow[21] = "TNEWBUS";
+                                dtworkRow[56] = "4000";
+                                dtworkRow[57] = prem.ToString();
+                            }
+                        }
+
+
+
+
+                        objHlpr.fn_getnamesandlifeID(fullname, dob, out string str_outfname, out string str_outlname, out string str_outlifeid);
+
+                        dtworkRow[31] = objHlpr.fn_stringcleanup(fullname);
+                        dtworkRow[32] = str_outlname;
+                        dtworkRow[33] = str_outfname;
+                        dtworkRow[30] = str_outlifeid;
+
+                        if (String.IsNullOrEmpty(gender) && !String.IsNullOrEmpty(str_gender))
+                        {
+                            dtworkRow[36] = objHlpr.fn_getgender(str_gender, str_outfname, dtworkRow.Table.Columns[36].ColumnName);
+                        }
+
+                        objdt_template.Rows.Add(dtworkRow);// inpu8trow+++
+                    }
+
+                    prawrow++;
+                    polnum = wsraw.Cells[prawrow, 1].Text.ToString();
+                    trancode = wsraw.Cells[prawrow, 1].Text.ToString();
+                    cert = wsraw.Cells[prawrow, 2].Text.ToString();
+                    eff = wsraw.Cells[prawrow, 3].Text.ToString();
+                    prem = wsraw.Cells[prawrow, 4].Text.ToString();
+                    life = wsraw.Cells[prawrow, 5].Text.ToString();
+                    extra = wsraw.Cells[prawrow, 6].Text.ToString();
+                    adb = wsraw.Cells[prawrow, 7].Text.ToString();
+                    wpd = wsraw.Cells[prawrow, 8].Text.ToString();
+                    total = wsraw.Cells[prawrow, 10].Text.ToString();
+                    initial = wsraw.Cells[prawrow, 11].Text.ToString();
+                    amount = wsraw.Cells[prawrow, 12].Text.ToString();
+
+                    rowcount++;
+                }
+                #endregion
+
+                string despath = str_saved + @"\BM003-" + str_savef + ".xlsx";
+                objHlpr.fn_savefile(objdt_template, despath); 
+
+                if (boo_open)
+                {
+                    objHlpr.fn_openfile(despath);
+                }
+
+                wsraw = null;
+                wbraw.Close();
+                wbraw = null;
+                eapp = null;
+                objdt_template.Dispose();
+                objdt_template = null;
+                objHlpr.fn_killexcel();
+                objHlpr = null;
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message + Environment.NewLine + " *****On excel row line: " + rowcount + " *****";
+            }
+
+        }
+    }
+}

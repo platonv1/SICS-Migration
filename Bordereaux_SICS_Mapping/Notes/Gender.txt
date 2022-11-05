@@ -1,0 +1,37 @@
+﻿if (dbenable1.Checked == true)
+                        {
+                            if (String.IsNullOrEmpty(dtworkRow[36].ToString()))
+                            {
+                                wbdata = eapp.Workbooks.Open(plcytxt1.Text);
+                                wsdata = wbdata.Sheets[1];
+                                Range datarange = wsdata.UsedRange;
+                                int edatarow = datarange.Rows.Count;
+                                string dataname = wsdata.Cells[drow, 1].Text.ToString();
+                                string datagender = wsdata.Cells[drow, 2].Text.ToString();
+
+                                {
+                                    while
+
+                                    (string.IsNullOrEmpty(dtworkRow[36].ToString()))
+                                    {
+                                        bool checkcase = dataname.ToString().Equals(sepnames[0].ToString(), StringComparison.OrdinalIgnoreCase);
+                                        if (checkcase == true)
+                                        {
+                                            dtworkRow[36] = datagender.ToString();
+                                        }
+                                        else
+                                        {
+                                            drow++;
+                                            dataname = wsdata.Cells[drow, 1].Text.ToString();
+                                            datagender = wsdata.Cells[drow, 2].Text.ToString();
+                                        }
+                                        if (drow >= edatarow)
+                                        {
+                                            dtworkRow[36] = "DU_" + wsinput.Cells[1, 37].Text.ToString();
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }

@@ -1,0 +1,250 @@
+﻿//for LIFE1_ID
+                        if (sepnames.Count() >= 4)
+                        {
+                            if (sepnames.Contains("DEL") ||
+                                   sepnames.Contains("DELA") || sepnames.Contains("DELOS") ||
+                                   sepnames.Contains("LA") || sepnames.Contains("STA.") ||
+                                   sepnames.Contains("STA") || sepnames.Contains("SANTA") ||
+                                   sepnames.Contains("SANTO") || sepnames.Contains("STO.") ||
+                                   sepnames.Contains("STO"))
+                            {
+                                if (sepnames.Contains("JR") || (sepnames.Contains("Jr")) || (sepnames.Contains("Jr."))
+                                || (sepnames.Contains("SR")) || (sepnames.Contains("II")) || (sepnames.Contains("JR.")) ||
+                                (sepnames.Contains("III")) || (sepnames.Contains("IV")) ||
+                                (sepnames.Contains("V")))
+
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+
+                                    for (int i = 3; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        if (!sepnames[i].ToUpper().Contains("JR") || !sepnames[i].ToUpper().Contains("III") || !sepnames[i].ToUpper().Contains("II")
+                                            || !sepnames[i].ToUpper().Contains("IV"))
+                                        {
+                                            fntrim = fntrim + " " + sepnames[i];
+                                        }
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+                                else
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+                                    for (int i = 2; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        fntrim = fntrim + " " + sepnames[i];
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+
+                            }
+
+                            else if (sepnames.Contains("DE") || sepnames.Contains("LA "))
+                            {
+                                if (sepnames.Contains("JR") || (sepnames.Contains("Jr")) || (sepnames.Contains("Jr."))
+                                    || (sepnames.Contains("SR")) || (sepnames.Contains("II")) || (sepnames.Contains("JR.")) ||
+                                    (sepnames.Contains("III")) || (sepnames.Contains("IV")) ||
+                                    (sepnames.Contains("V")))
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+
+                                    for (int i = 3; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        if (!sepnames[i].ToUpper().Contains("JR") || !sepnames[i].ToUpper().Contains("III"))
+                                        {
+                                            fntrim = fntrim + " " + sepnames[i];
+                                        }
+
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+                                else
+                                {
+                                    dtworkRow[32] = sepnames[2];
+                                    lntrim = sepnames[2];
+                                    for (int i = 3; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        fntrim = fntrim + " " + sepnames[i];
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+
+                            }
+
+                            else if (sepnames.Contains("JR") || (sepnames.Contains("Jr")) || (sepnames.Contains("Jr."))
+                                       || (sepnames.Contains("SR")) || (sepnames.Contains("II")) || (sepnames.Contains("JR.")) ||
+                                       (sepnames.Contains("III")) || (sepnames.Contains("IV")) ||
+                                       (sepnames.Contains("V")))
+                            //jr only
+                            {
+                                for (int i = 1; i <= sepnames.Count() - 1; i++)
+                                {
+                                    if (!sepnames[i].ToUpper().Contains("JR") || !sepnames[i].ToUpper().Contains("III"))
+                                    {
+                                        fntrim = fntrim + " " + sepnames[i];
+                                    }
+                                }
+                                fntrim = fntrim.TrimStart(' ');
+
+                                lntrim = sepnames[0];
+                                dtworkRow[32] = lntrim;
+                                dtworkRow[33] = fntrim;
+                            }
+                            else
+                            {
+                                for (int i = 1; i <= sepnames.Count() - 1; i++)
+                                {
+                                    fntrim = fntrim + " " + sepnames[i];
+                                }
+                                fntrim = fntrim.TrimStart(' ');
+                                lntrim = sepnames[0];
+
+                                dtworkRow[32] = lntrim;
+                                dtworkRow[33] = fntrim;
+                            }
+                        }
+
+                        if (sepnames.Count() == 3 || sepnames.Count() == 2)
+                        {
+                            if (sepnames.Contains("DEL") ||
+                                   sepnames.Contains("DELA") || sepnames.Contains("DELOS") ||
+                                   sepnames.Contains("LA") || sepnames.Contains("STA.") ||
+                                   sepnames.Contains("STA") || sepnames.Contains("SANTA") ||
+                                   sepnames.Contains("SANTO") || sepnames.Contains("STO.") ||
+                                   sepnames.Contains("STO"))
+                            {
+                                if (sepnames.Contains("JR") || (sepnames.Contains("Jr")) || (sepnames.Contains("Jr."))
+                                || (sepnames.Contains("SR")) || (sepnames.Contains("II")) || (sepnames.Contains("JR.")) ||
+                                (sepnames.Contains("III")) || (sepnames.Contains("IV")) ||
+                                (sepnames.Contains("V")))
+
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+
+                                    for (int i = 3; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        if (!sepnames[i].ToUpper().Contains("JR") || !sepnames[i].ToUpper().Contains("III"))
+                                        {
+                                            fntrim = fntrim + " " + sepnames[i];
+                                        }
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+                                else
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+                                    for (int i = 2; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        fntrim = fntrim + " " + sepnames[i];
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+
+                            }
+
+                            else if (sepnames.Contains("DE") || sepnames.Contains("LA "))
+                            {
+                                if (sepnames.Contains("JR") || (sepnames.Contains("Jr")) || (sepnames.Contains("Jr."))
+                                    || (sepnames.Contains("SR")) || (sepnames.Contains("II")) || (sepnames.Contains("JR.")) ||
+                                    (sepnames.Contains("III")) || (sepnames.Contains("IV")) ||
+                                    (sepnames.Contains("V")))
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+
+                                    for (int i = 3; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        if (!sepnames[i].ToUpper().Contains("JR") || !sepnames[i].ToUpper().Contains("III"))
+                                        {
+                                            fntrim = fntrim + " " + sepnames[i];
+                                        }
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+                                else
+                                {
+                                    dtworkRow[32] = sepnames[1];
+                                    lntrim = sepnames[1];
+                                    for (int i = 2; i <= sepnames.Count() - 1; i++)
+                                    {
+                                        fntrim = fntrim + " " + sepnames[i];
+                                    }
+                                    fntrim = fntrim.TrimStart(' ');
+                                    dtworkRow[33] = fntrim;
+                                }
+
+                            }
+
+                            else if (sepnames.Contains("JR") || (sepnames.Contains("Jr")) || (sepnames.Contains("Jr."))
+                                       || (sepnames.Contains("SR")) || (sepnames.Contains("II")) || (sepnames.Contains("JR.")) ||
+                                       (sepnames.Contains("III")) || (sepnames.Contains("IV")) ||
+                                       (sepnames.Contains("V")))
+                            //jr only
+                            {
+                                for (int i = 2; i <= sepnames.Count() - 1; i++)
+                                {
+                                    if (!sepnames[i].ToUpper().Contains("JR") || !sepnames[i].ToUpper().Contains("III"))
+                                    {
+                                        fntrim = fntrim + " " + sepnames[i];
+                                    }
+                                }
+                                fntrim = fntrim.TrimStart(' ');
+
+                                lntrim = sepnames[0];
+                                dtworkRow[32] = lntrim;
+                                dtworkRow[33] = fntrim;
+                            }
+                            else
+                            {
+                                for (int i = 1; i <= sepnames.Count() - 1; i++)
+                                {
+                                    fntrim = fntrim + " " + sepnames[i];
+                                }
+                                fntrim = fntrim.TrimStart(' ');
+                                lntrim = sepnames[0];
+
+                                dtworkRow[32] = lntrim;
+                                dtworkRow[33] = fntrim;
+                            }
+                        }
+
+                        if (lntrim.Length >= 5)
+                        {
+                            if (fntrim.Length < 2)
+                            {
+                                //raise issue regarding chinese last name e.g. Ong
+                                dtworkRow[30] = lntrim + fntrim +
+                                                                sepdob[0] + sepdob[1] + sepdob[2];
+                            }
+                            else
+                            {
+                                dtworkRow[30] = lntrim.Substring(0, 5) + fntrim.Substring(0, 2) +
+                                                                sepdob[0] + sepdob[1] + sepdob[2];
+                            }
+                        }
+
+                        if (lntrim.Length <= 4)
+                        {
+                            if (fntrim.Length < 2)
+                            {
+                                //raise issue regarding chinese last name e.g. Ong
+                                dtworkRow[30] = lntrim + fntrim +
+                                                                sepdob[0] + sepdob[1] + sepdob[2];
+                            }
+                            else
+                            {
+                                dtworkRow[30] = lntrim + fntrim.Substring(0, 2) +
+                                                                 sepdob[0] + sepdob[1] + sepdob[2];
+                            }
+                        }

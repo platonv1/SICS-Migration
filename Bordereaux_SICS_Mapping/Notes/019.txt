@@ -1,0 +1,1149 @@
+﻿using System;
+using System.Data;
+
+namespace Bordereaux_SICS_Mapping.BAL
+{
+    class BM019
+    {
+        public string fn_process(string str_raw, string str_sheet, string str_saved, string str_savef, string str_gender = "", bool boo_open = false, bool boo_clean = false)
+        {
+            #region NOTES
+            //Declaration for exception line debugging on excel
+            #endregion
+            int rowcount = 1;
+
+            try
+            {
+                #region "HASH Total"
+                decimal dbl_BF01 = 0, dbl_BF02 = 0, dbl_BF03 = 0, dbl_BF04 = 0, dbl_BF05 = 0, dbl_BF06 = 0, dbl_BF07 = 0, dbl_BF08 = 0, dbl_BF09 = 0, dbl_BF10 = 0, dbl_BF11 = 0, dbl_BF12 = 0,
+                    dbl_BH01 = 0, dbl_BH02 = 0, dbl_BH03 = 0, dbl_BH04 = 0, dbl_BH05 = 0, dbl_BH06 = 0, dbl_BH07 = 0, dbl_BH08 = 0, dbl_BH09 = 0, dbl_BH10 = 0, dbl_BH11 = 0, dbl_BH12 = 0,
+                    dbl_BJ01 = 0, dbl_BJ02 = 0, dbl_BJ03 = 0, dbl_BJ04 = 0, dbl_BJ05 = 0, dbl_BJ06 = 0, dbl_BJ07 = 0, dbl_BJ08 = 0, dbl_BJ09 = 0, dbl_BJ10 = 0, dbl_BJ11 = 0, dbl_BJ12 = 0,
+                    dbl_BL01 = 0, dbl_BL02 = 0, dbl_BL03 = 0, dbl_BL04 = 0, dbl_BL05 = 0, dbl_BL06 = 0, dbl_BL07 = 0, dbl_BL08 = 0, dbl_BL09 = 0, dbl_BL10 = 0, dbl_BL11 = 0, dbl_BL12 = 0,
+                    dbl_BZ01 = 0, dbl_BZ02 = 0, dbl_BZ03 = 0, dbl_BZ04 = 0, dbl_BZ05 = 0, dbl_BZ06 = 0, dbl_BZ07 = 0, dbl_BZ08 = 0, dbl_BZ09 = 0, dbl_BZ10 = 0, dbl_BZ11 = 0, dbl_BZ12 = 0;
+                #endregion
+
+                System.Data.DataRow dtworkRow;
+                Helper objHlpr = new Helper();
+                DataTable objdt_template01 = new DataTable();
+                DataTable objdt_template02 = new DataTable();
+                DataTable objdt_template03 = new DataTable();
+                DataTable objdt_template04 = new DataTable();
+                DataTable objdt_template05 = new DataTable();
+                DataTable objdt_template06 = new DataTable();
+                DataTable objdt_template07 = new DataTable();
+                DataTable objdt_template08 = new DataTable();
+                DataTable objdt_template09 = new DataTable();
+                DataTable objdt_template10 = new DataTable();
+                DataTable objdt_template11 = new DataTable();
+                DataTable objdt_template12 = new DataTable();
+
+                objdt_template01 = objHlpr.dt_formtemplate("JAN");
+                objdt_template02 = objHlpr.dt_formtemplate("FEB");
+                objdt_template03 = objHlpr.dt_formtemplate("MAR");
+                objdt_template04 = objHlpr.dt_formtemplate("APR");
+                objdt_template05 = objHlpr.dt_formtemplate("MAY");
+                objdt_template06 = objHlpr.dt_formtemplate("JUN");
+                objdt_template07 = objHlpr.dt_formtemplate("JUL");
+                objdt_template08 = objHlpr.dt_formtemplate("AUG");
+                objdt_template09 = objHlpr.dt_formtemplate("SEP");
+                objdt_template10 = objHlpr.dt_formtemplate("OCT");
+                objdt_template11 = objHlpr.dt_formtemplate("NOV");
+                objdt_template12 = objHlpr.dt_formtemplate("DEC");
+
+                Microsoft.Office.Interop.Excel.Application eapp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook wbraw = eapp.Workbooks.Open(str_raw);
+                Microsoft.Office.Interop.Excel.Worksheet wsraw = wbraw.Sheets[str_sheet];
+                Microsoft.Office.Interop.Excel.Range rawrange = wsraw.UsedRange;
+
+                if (boo_clean)
+                {
+                    wsraw = objHlpr.fn_extendwidth(wsraw);
+                }
+
+                int erawrow = rawrange.Rows.Count;
+                int erawcol = rawrange.Columns.Count;
+                int edatacol = rawrange.Columns.Count;
+
+                int prawrow = 1;
+
+                double intsum = 0;
+                double intsum1 = 0.15;
+                double dparseout;
+                int age1;
+
+                string busmean = "";
+                string remarks = "";
+                string polnum = wsraw.Cells[prawrow, 2].Text.ToString();
+                string fullnames = wsraw.Cells[prawrow, 8].Text.ToString();
+                string dob = wsraw.Cells[prawrow, 11].Text.ToString();
+                string gender = wsraw.Cells[prawrow, 7].Text.ToString();
+                string smoker = wsraw.Cells[prawrow, 9].Text.ToString();
+                string start = wsraw.Cells[prawrow, 5].Text.ToString();
+                string premium = wsraw.Cells[prawrow, 37].Text.ToString();
+                string age = wsraw.Cells[prawrow, 12].Text.ToString();
+                string classific = wsraw.Cells[prawrow, 13].Text.ToString();
+                string plan = wsraw.Cells[prawrow, 3].Text.ToString();
+                string trans = wsraw.Cells[prawrow, 6].Text.ToString();
+                string rprem = wsraw.Cells[prawrow, 27].Text.ToString();
+                string cedent1 = wsraw.Cells[prawrow, 15].Text.ToString();
+                string cedent2 = wsraw.Cells[prawrow, 16].Text.ToString();
+                string cedent3 = wsraw.Cells[prawrow, 17].Text.ToString();
+                string ret1 = wsraw.Cells[prawrow, 19].Text.ToString();
+                string ret2 = wsraw.Cells[prawrow, 20].Text.ToString();
+                string ret3 = wsraw.Cells[prawrow, 21].Text.ToString();
+                string as1 = wsraw.Cells[prawrow, 23].Text.ToString();
+                string as2 = wsraw.Cells[prawrow, 24].Text.ToString();
+                string as3 = wsraw.Cells[prawrow, 25].Text.ToString();
+                string as4 = wsraw.Cells[prawrow, 26].Text.ToString();
+                string bustype = wsraw.Cells[prawrow, 4].Text.ToString();
+                string monthly = wsraw.Cells[prawrow, 27].Text.ToString();
+                string effd = wsraw.Cells[prawrow, 28].Text.ToString();
+
+                string byear = wsraw.Cells[prawrow, 2][4].Text.ToString();
+                byear = byear.Substring(byear.Length - 4, 4);
+                string year = wsraw.Cells[prawrow, 5].Text.ToString();
+
+                if (Double.TryParse(wsraw.Cells[prawrow, 23].Text.ToString(), out dparseout))
+                {
+                    intsum = Convert.ToDouble(wsraw.Cells[prawrow, 23].Text.ToString());
+                }
+
+                string TRANCODE = string.Empty;
+                string[] comparestring = new string[] { "" };
+
+                int storee;
+                bool chck;
+                DateTime sheetmonth;
+
+
+                #region Data Processing
+                while (rowcount != erawrow + 2)
+                {
+                    chck = int.TryParse(polnum, out storee);
+                    if (chck == true)
+                    {
+                        sheetmonth = Convert.ToDateTime(effd);
+                        dtworkRow = objdt_template01.NewRow();
+
+                        switch (sheetmonth.Month)
+                        {
+                            case 1:
+                                dtworkRow = objdt_template01.NewRow();
+                                break;
+                            case 2:
+                                dtworkRow = objdt_template02.NewRow();
+                                break;
+                            case 3:
+                                dtworkRow = objdt_template03.NewRow();
+                                break;
+                            case 4:
+                                dtworkRow = objdt_template04.NewRow();
+                                break;
+                            case 5:
+                                dtworkRow = objdt_template05.NewRow();
+                                break;
+                            case 6:
+                                dtworkRow = objdt_template06.NewRow();
+                                break;
+                            case 7:
+                                dtworkRow = objdt_template07.NewRow();
+                                break;
+                            case 8:
+                                dtworkRow = objdt_template08.NewRow();
+                                break;
+                            case 9:
+                                dtworkRow = objdt_template09.NewRow();
+                                break;
+                            case 10:
+                                dtworkRow = objdt_template10.NewRow();
+                                break;
+                            case 11:
+                                dtworkRow = objdt_template11.NewRow();
+                                break;
+                            case 12:
+                                dtworkRow = objdt_template12.NewRow();
+                                break;
+                            default:
+                                break;
+                        }
+
+
+
+
+                        DateTime oDate = Convert.ToDateTime(start);
+                        dtworkRow[19] = oDate.Month.ToString() + "-" + oDate.Day.ToString() + "-" + oDate.Year.ToString();
+                        dtworkRow[20] = oDate.Month.ToString() + "-" + oDate.Day.ToString() + "-" + oDate.Year.ToString();
+                        dtworkRow[22] = effd;
+                        dtworkRow[41] = byear;
+                        dtworkRow[31] = fullnames;
+                        dtworkRow[36] = gender;
+
+                        #region "New Requirements - No DOB"
+                        if (String.IsNullOrEmpty(dob))
+                        {
+                            dob = "7/1/1900";
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR4AL" : dtworkRow[76].ToString() + "|BR4AL";
+                        }
+                        #endregion
+
+                        oDate = Convert.ToDateTime(dob);
+                        dtworkRow[37] = oDate.Month.ToString() + "-" + oDate.Day.ToString() + "-" + oDate.Year.ToString();
+                        dtworkRow[38] = smoker;
+                        dtworkRow[26] = "1.00";
+
+
+                        //ISSUE# Bug on mortality-Start---------
+                        dtworkRow[39] = objHlpr.fn_getmortality(classific);
+                        if (objHlpr.fn_isDMort(dtworkRow[39].ToString()))
+                        {
+                            dtworkRow[39] = "STANDARD";
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR8AN" : dtworkRow[76].ToString() + "|BR8AN";
+                        }
+                        //ISSUE# Bug on mortality-End-----------
+
+                        dtworkRow[38] = objHlpr.fn_smokercode(smoker, "019");
+                        dtworkRow[79] = age;
+                        age1 = Convert.ToInt32(age);
+
+                        if (bustype.ToUpper().Contains("FACUL"))
+                        {
+                            busmean = "F";
+                        }
+                        else if (bustype.ToUpper().Contains("AUTOMATIC"))
+                        {
+                            busmean = "T";
+                        }
+
+                        dtworkRow[14] = busmean;
+
+                        cedent1 = objHlpr.fn_numbercleanup_negative(cedent1);
+                        cedent2 = objHlpr.fn_numbercleanup_negative(cedent2);
+                        cedent3 = objHlpr.fn_numbercleanup_negative(cedent3);
+                       
+
+                        if (String.IsNullOrEmpty(cedent2) && String.IsNullOrEmpty(cedent3))
+                        {
+                            decimal cedent11;
+                            int cedent111;
+                            if (cedent1 == string.Empty)
+                            {
+                                cedent1 = "0";
+                            }
+                            cedent11 = Convert.ToDecimal(cedent1);//
+                            cedent111 = Convert.ToInt32(cedent11);
+                            dtworkRow[25] = cedent111 * intsum1;
+                        }
+
+                        if (String.IsNullOrEmpty(cedent1) && String.IsNullOrEmpty(cedent3))
+                        {
+
+                            if (cedent2 == string.Empty)
+                            {
+                                cedent2 = "0";
+                            }
+                            decimal cedent22;
+                            int cedent222;
+                            cedent22 = Convert.ToDecimal(cedent2);//
+                            cedent222 = Convert.ToInt32(cedent22);
+                            dtworkRow[25] = cedent222 * intsum1;
+                        }
+
+                        if (String.IsNullOrEmpty(cedent1) && String.IsNullOrEmpty(cedent2))
+                        {
+                            decimal cedent33;
+                            int cedent333;
+                            if (cedent3 == string.Empty)
+                            {
+                                cedent3 = "0";
+                            }
+                            cedent33 = Convert.ToDecimal(cedent3);//
+                            cedent333 = Convert.ToInt32(cedent33);
+                            dtworkRow[25] = cedent333 * intsum1;
+                        }
+                       
+                        ret1 = objHlpr.fn_numbercleanup_negative(ret1);
+                        ret2 = objHlpr.fn_numbercleanup_negative(ret2);
+                        ret3 = objHlpr.fn_numbercleanup_negative(ret3);
+                      
+                        if (String.IsNullOrEmpty(ret2) && String.IsNullOrEmpty(ret3))
+                        {
+                            decimal ret11;
+                            int ret111;
+                            if (ret1 == string.Empty)
+                            {
+                                ret1 = "0";
+                            }
+                            ret11 = Convert.ToDecimal(ret1);//
+                            ret111 = Convert.ToInt32(ret11);
+                            dtworkRow[28] = ret111 * intsum1;
+                        }
+
+                        if (String.IsNullOrEmpty(ret1) && String.IsNullOrEmpty(ret3))
+                        {
+                            decimal ret22;
+                            int ret222;
+                            if (ret2 == string.Empty)
+                            {
+                                ret2 = "0";
+                            }
+                            ret22 = Convert.ToDecimal(ret2);//
+                            ret222 = Convert.ToInt32(ret22);
+
+                            dtworkRow[28] = ret222 * intsum1;
+                        }
+
+                        if (String.IsNullOrEmpty(ret1) && String.IsNullOrEmpty(ret2))
+                        {
+                            decimal ret33;
+                            int ret333;
+                            if (ret3 == string.Empty)
+                            {
+                                ret3 = "0";
+                            }
+                            ret33 = Convert.ToDecimal(ret3);//
+                            ret333 = Convert.ToInt32(ret33);
+                            dtworkRow[28] = ret333 * intsum1;
+                        }
+                     
+                        DateTime oDate_year = Convert.ToDateTime(year);
+                        dtworkRow[78] = age1 + int.Parse(byear) - oDate_year.Year;
+
+                        if (as1.ToUpper().Contains("TERMINATED") || (as2.ToUpper().Contains("TERMINATED")) || (as3.ToUpper().Contains("TERMINATED")) || (as4.ToUpper().Contains("TERMINATED"))
+                        || (cedent1.ToUpper().Contains("TERMINATED")) || (cedent2.ToUpper().Contains("TERMINATED")) || (cedent3.ToUpper().Contains("TERMINATED"))
+                        || (ret1.ToUpper().Contains("TERMINATED")) || (ret2.ToUpper().Contains("TERMINATED")) || (ret3.ToUpper().Contains("TERMINATED")))
+                        {
+                            remarks = "TERMINATED";
+                        }
+
+                        if (monthly.ToUpper().Contains("TERMINATED"))
+                        {
+                            remarks = "TERMINATED";
+                        }
+                        else
+                        {
+                            remarks = "";
+                        }
+                        if (remarks.Contains("TERMINATED"))
+                        {
+                            TRANCODE = "TCONTER";
+                        }
+                        else if (oDate_year.Year < int.Parse(byear))
+                        {
+                            TRANCODE = "TRENEW";
+                        }
+                        else
+                        {
+                            TRANCODE = "TNEWBUS";
+                        }
+
+                        #region "New Requirements - No Name"
+                        if (String.IsNullOrEmpty(fullnames))
+                        {
+                            fullnames = polnum.ToString();
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR6AF" : dtworkRow[76].ToString() + "|BR6AF";
+                        }
+
+                        #endregion
+
+                        objHlpr.fn_getnamesandlifeID(fullnames, dob, out string str_outfname, out string str_outlname, out string str_outlifeid , "019");
+
+                        string str_MI = objHlpr.fn_getMI(str_outlname);
+                        dtworkRow[34] = str_MI;
+
+                        dtworkRow[31] = objHlpr.fn_stringcleanup(fullnames);
+                        dtworkRow[32] = str_outlname.Replace(str_MI + " ", string.Empty);
+
+                        dtworkRow[33] = str_outfname;
+
+                        dtworkRow[30] = str_outlifeid;
+
+                        if (String.IsNullOrEmpty(gender) && !String.IsNullOrEmpty(str_gender))
+                        {
+                            dtworkRow[36] = objHlpr.fn_getgender(str_gender, str_outfname, dtworkRow.Table.Columns[36].ColumnName);
+                        }
+
+                        if (String.IsNullOrEmpty(cedent1) && (String.IsNullOrEmpty(cedent2)) && (String.IsNullOrEmpty(cedent3)))
+                        {
+                            dtworkRow[25] = "0";
+                        }
+
+                        if (String.IsNullOrEmpty(ret1) && (String.IsNullOrEmpty(ret2)) && String.IsNullOrEmpty(ret3))
+                        {
+                            dtworkRow[26] = "0";
+                        }
+
+                        as1 = objHlpr.fn_numbercleanup_negative(as1);
+                        as2 = objHlpr.fn_numbercleanup_negative(as2);
+                        as3 = objHlpr.fn_numbercleanup_negative(as3);
+                        as4 = objHlpr.fn_numbercleanup_negative(as4);
+
+
+                        if ((String.IsNullOrEmpty(as1)) || (as1.ToUpper().Contains("TERMINATED")))
+                        {
+                            as1 = "0";
+                        }
+                        if ((String.IsNullOrEmpty(as2) || (as2.ToUpper().Contains("TERMINATED"))))
+                        {
+                            as2 = "0";
+                        }
+                        if ((String.IsNullOrEmpty(as3) || (as3.ToUpper().Contains("TERMINATED"))))
+                        {
+                            as3 = "0";
+                        }
+
+                        if ((as2 == ("0") && (as3 == ("0"))))
+                        {
+                            decimal as11;
+                            int as111;
+                            if (as1 == string.Empty)
+                            {
+                                as1 = "0";
+                            }
+                            as11 = Convert.ToDecimal(as1);//
+                            as111 = Convert.ToInt32(as11);
+                            dtworkRow[27] = as111 * intsum1;
+                            dtworkRow[77] = as111 * intsum1;
+                        }
+                        if (as1 == ("0") && (as3 == ("0")))
+                        {
+                            decimal as22;
+                            int as222;
+                            if (as2 == string.Empty)
+                            {
+                                as2 = "0";
+                            }
+                            as22 = Convert.ToDecimal(as2);//
+                            as222 = Convert.ToInt32(as22);
+                            dtworkRow[27] = as222 * intsum1;
+
+                            dtworkRow[77] = as222 * intsum1;
+                        }
+                        if (as1 == ("0") && (as2 == ("0")))
+                        {
+                            decimal as33;
+                            int as333;
+                            if (as3 == string.Empty)
+                            {
+                                as3 = "0";
+                            }
+                            as33 = Convert.ToDecimal(as3);//
+                            as333 = Convert.ToInt32(as33);
+                            dtworkRow[27] = as333 * intsum1;
+                            dtworkRow[77] = as333 * intsum1;
+                        }
+
+
+                        if (as1.Contains("TERMINATED") || (as2.Contains("TERMINATED")) || (as3.Contains("TERMINATED")) || (as4.Contains("TERMINATED")))
+                        {
+                            dtworkRow[28] = "0";
+                        }
+
+                        if (ret1.Contains("TERMINATED") || (ret2.Contains("TERMINATED")) || (ret3.Contains("TERMINATED")))
+                        {
+                            dtworkRow[26] = "0";
+                        }
+
+                        if (cedent1.Contains("TERMINATED") || (cedent2.Contains("TERMINATED")) || (cedent3.Contains("TERMINATED")))
+                        {
+                            dtworkRow[28] = "0";
+                        }
+
+                        if (monthly.ToUpper().Contains("TERMINATED"))
+                        {
+                            monthly = "0";
+                        }
+
+                        decimal monthlyy;
+                        int monthlyyy;
+
+                        monthly = objHlpr.fn_numbercleanup_negative(monthly);
+                        if (monthly == string.Empty)
+                        {
+                            monthly = "0";
+                        }
+
+                        monthlyy = Convert.ToDecimal(monthly);//
+                        monthlyyy = Convert.ToInt32(monthlyy);
+
+                        if (TRANCODE.Contains("TNEWBUS"))
+                        {
+                            comparestring = new string[] { "FIRST", "First" };
+                            dtworkRow[56] = "4000";
+                            dtworkRow[57] = monthlyyy * intsum1;
+                        }
+                        else if (TRANCODE.Contains("TRENEW"))
+                        {
+                            comparestring = new string[] { "RENEWAL", "Renewal" };
+
+                            dtworkRow[58] = "4001";
+                            dtworkRow[59] = monthlyyy * intsum1;
+                        }
+                        else if (TRANCODE.Contains("ADJUST") || TRANCODE.Contains("TCANCINC") || TRANCODE.Contains("TEXPIRY") ||
+                                TRANCODE.Contains("TEXTTER") || TRANCODE.Contains("TFULLMAT") || TRANCODE.Contains("TFULLPU") ||
+                                TRANCODE.Contains("TFULLREC") || TRANCODE.Contains("TFULLSUR") || TRANCODE.Contains("TLAPSE") ||
+                                TRANCODE.Contains("TREINS"))
+                        {
+                            comparestring = new string[] { "FIRST", "First", "Recoveries", "Others" };
+                            dtworkRow[60] = "4002";
+                            dtworkRow[61] = monthlyyy * intsum1;
+                        }
+                        else if (TRANCODE.Contains("TCONTER"))
+                        {
+                            comparestring = new string[] { "Renewal", "RENEWAL", "TERMINATED", "Terminated", "Recoveries", "Others" };
+                            dtworkRow[62] = "4004";
+                            dtworkRow[63] = monthlyyy * intsum1;
+                        }
+
+                        dtworkRow[76] = remarks.ToString();
+                        dtworkRow[21] = TRANCODE.ToString();
+
+                        #region "New Requirements"
+                        dtworkRow[26] = string.Empty;
+
+                        if (!String.IsNullOrEmpty(dtworkRow[27].ToString())
+                            &&
+                            String.IsNullOrEmpty(dtworkRow[77].ToString()))
+                        {
+                            dtworkRow[77] = dtworkRow[27];
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR1-1BZ" : dtworkRow[76].ToString() + "|BR1-1BZ";
+                        }
+                        else if (!String.IsNullOrEmpty(dtworkRow[25].ToString())
+                            &&
+                            String.IsNullOrEmpty(dtworkRow[77].ToString()))
+                        {
+                            dtworkRow[75] = dtworkRow[25];
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR1-2BZ" : dtworkRow[76].ToString() + "|BR1-2BZ";
+                        }
+
+                        if (!String.IsNullOrEmpty(dtworkRow[77].ToString())
+                            &&
+                            String.IsNullOrEmpty(dtworkRow[27].ToString()))
+                        {
+                            dtworkRow[27] = dtworkRow[77];
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR2-1AB" : dtworkRow[76].ToString() + "|BR2-1AB";
+                        }
+                        else if (!String.IsNullOrEmpty(dtworkRow[25].ToString())
+                            &&
+                            String.IsNullOrEmpty(dtworkRow[27].ToString()))
+                        {
+                            dtworkRow[27] = dtworkRow[25];
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR2-2AB" : dtworkRow[76].ToString() + "|BR2-2AB";
+                        }
+
+                        if (!String.IsNullOrEmpty(dtworkRow[27].ToString())
+                            &&
+                            String.IsNullOrEmpty(dtworkRow[25].ToString()))
+                        {
+                            dtworkRow[25] = dtworkRow[27];
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR3-1Z" : dtworkRow[76].ToString() + "|BR3-1Z";
+                        }
+                        else if (!String.IsNullOrEmpty(dtworkRow[77].ToString())
+                            &&
+                            String.IsNullOrEmpty(dtworkRow[25].ToString()))
+                        {
+                            dtworkRow[25] = dtworkRow[77];
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR3-2Z" : dtworkRow[76].ToString() + "|BR3-2Z";
+                        }
+
+                        var parsedDOB = DateTime.Parse(dob);
+                        string initialNR = string.Empty;
+                        if (!String.IsNullOrEmpty(str_outfname))
+                        {
+                            initialNR = str_outfname.Substring(0, 1);
+                        }
+                        if (!String.IsNullOrEmpty(str_outlname))
+                        {
+                            initialNR += str_outlname.Substring(0, 1);
+                        }
+
+                        if (dtworkRow[13].ToString() == "GRP" || dtworkRow[13].ToString() == "GCL" || dtworkRow[13].ToString() == "GEB")
+                        {
+                            if (dtworkRow[0].ToString().Length >= 7)
+                            {
+                                dtworkRow[0] = dtworkRow[0].ToString().Substring(dtworkRow[0].ToString().Length - 7, 7) +
+                                    initialNR +
+                                    parsedDOB.Month.ToString().PadLeft(2, '0') + parsedDOB.Day.ToString().PadLeft(2, '0') + parsedDOB.Year;
+                            }
+                            else
+                            {
+                                dtworkRow[0] = dtworkRow[0].ToString() +
+                                    initialNR +
+                                    parsedDOB.Month.ToString().PadLeft(2, '0') + parsedDOB.Day.ToString().PadLeft(2, '0') + parsedDOB.Year;
+                            }
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR5-1A" : dtworkRow[76].ToString() + "|BR5-1A";
+
+                            dtworkRow[1] = polnum.ToString() + gender.Substring(0, 1);
+                            dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR5-2B" : dtworkRow[76].ToString() + "|BR5-2B";
+
+                            dtworkRow[7] = polnum.ToString();
+                        }
+                        else
+                        {
+                            dtworkRow[1] = string.Empty;
+                            dtworkRow[7] = string.Empty;
+                        }
+
+                        dtworkRow[19] = dtworkRow[20];
+                        #endregion
+
+                        switch (sheetmonth.Month)
+                        {
+                            case 1:
+                                objdt_template01.Rows.Add(dtworkRow);
+
+                                dbl_BF01 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH01 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ01 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL01 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ01 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+                                break;
+                            case 2:
+                                objdt_template02.Rows.Add(dtworkRow);
+
+                                dbl_BF02 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH02 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ02 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL02 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ02 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 3:
+                                objdt_template03.Rows.Add(dtworkRow);
+
+                                dbl_BF03 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH03 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ03 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL03 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ03 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 4:
+                                objdt_template04.Rows.Add(dtworkRow);
+
+                                dbl_BF04 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH04 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ04 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL04 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ04 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 5:
+                                objdt_template05.Rows.Add(dtworkRow);
+
+                                dbl_BF05 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH05 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ05 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL05 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ05 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 6:
+                                objdt_template06.Rows.Add(dtworkRow);
+
+                                dbl_BF06 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH06 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ06 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL06 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ06 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 7:
+                                objdt_template07.Rows.Add(dtworkRow);
+
+                                dbl_BF07 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH07 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ07 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL07 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ07 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 8:
+                                objdt_template08.Rows.Add(dtworkRow);
+
+                                dbl_BF08 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH08 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ08 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL08 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ08 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 9:
+                                objdt_template09.Rows.Add(dtworkRow);
+
+                                dbl_BF09 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH09 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ09 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL09 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ09 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 10:
+                                objdt_template10.Rows.Add(dtworkRow);
+
+                                dbl_BF10 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH10 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ10 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL10 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ10 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 11:
+                                objdt_template11.Rows.Add(dtworkRow);
+
+                                dbl_BF11 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH11 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ11 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL11 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ11 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            case 12:
+                                objdt_template12.Rows.Add(dtworkRow);
+
+                                dbl_BF12 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                    );
+                                dbl_BH12 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                    );
+                                dbl_BJ12 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                    );
+                                dbl_BL12 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                    );
+                                dbl_BZ12 += decimal.Parse(
+                                    String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                    );
+
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    prawrow++;
+                    polnum = wsraw.Cells[prawrow, 2].Text.ToString();
+                    fullnames = wsraw.Cells[prawrow, 8].Text.ToString();
+                    dob = wsraw.Cells[prawrow, 11].Text.ToString();
+                    gender = wsraw.Cells[prawrow, 7].Text.ToString();
+                    smoker = wsraw.Cells[prawrow, 9].Text.ToString();
+                    premium = wsraw.Cells[prawrow, 37].Text.ToString();
+                    age = wsraw.Cells[prawrow, 12].Text.ToString();
+                    classific = wsraw.Cells[prawrow, 13].Text.ToString();
+                    plan = wsraw.Cells[prawrow, 3].Text.ToString();
+                    trans = wsraw.Cells[prawrow, 6].Text.ToString();
+                    rprem = wsraw.Cells[prawrow, 27].Text.ToString();
+                    year = wsraw.Cells[prawrow, 5].Text.ToString();
+                    cedent1 = wsraw.Cells[prawrow, 15].Text.ToString();
+                    cedent2 = wsraw.Cells[prawrow, 16].Text.ToString();
+                    cedent3 = wsraw.Cells[prawrow, 17].Text.ToString();
+                    ret1 = wsraw.Cells[prawrow, 19].Text.ToString();
+                    ret2 = wsraw.Cells[prawrow, 20].Text.ToString();
+                    ret3 = wsraw.Cells[prawrow, 21].Text.ToString();
+                    as1 = wsraw.Cells[prawrow, 23].Text.ToString();
+                    as2 = wsraw.Cells[prawrow, 24].Text.ToString();
+                    as3 = wsraw.Cells[prawrow, 25].Text.ToString();
+                    bustype = wsraw.Cells[prawrow, 4].Text.ToString();
+                    monthly = wsraw.Cells[prawrow, 27].Text.ToString();
+                    start = wsraw.Cells[prawrow, 5].Text.ToString();
+                    effd = wsraw.Cells[prawrow, 28].Text.ToString();
+                    busmean = "";
+
+                    if (Double.TryParse(wsraw.Cells[prawrow, 23].Text.ToString(), out dparseout))
+                    {
+                        intsum = Convert.ToDouble(wsraw.Cells[prawrow, 23].Text.ToString());
+
+                    }
+
+                    rowcount++;
+                }
+                #endregion
+                string despath = string.Empty;
+
+                if (objdt_template01.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template01.NewRow();
+                    objdt_template01.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template01.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF01 + dbl_BH01 + dbl_BJ01 + dbl_BL01;
+                    objdt_template01.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template01.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ01;
+                    objdt_template01.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template01, boo_open, str_saved + @"\BM019-JAN-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template02.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template02.NewRow();
+                    objdt_template02.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template02.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF02 + dbl_BH02 + dbl_BJ02 + dbl_BL02;
+                    objdt_template02.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template02.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ02;
+                    objdt_template02.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template02, boo_open, str_saved + @"\BM019-FEB-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template03.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template03.NewRow();
+                    objdt_template03.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template03.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF03 + dbl_BH03 + dbl_BJ03 + dbl_BL03;
+                    objdt_template03.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template03.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ03;
+                    objdt_template03.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template03, boo_open, str_saved + @"\BM019-MAR-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template04.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template04.NewRow();
+                    objdt_template04.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template04.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF04 + dbl_BH04 + dbl_BJ04 + dbl_BL04;
+                    objdt_template04.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template04.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ04;
+                    objdt_template04.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template04, boo_open, str_saved + @"\BM019-APR-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template05.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template05.NewRow();
+                    objdt_template05.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template05.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF05 + dbl_BH05 + dbl_BJ05 + dbl_BL05;
+                    objdt_template05.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template05.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ05;
+                    objdt_template05.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template05, boo_open, str_saved + @"\BM019-MAY-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template06.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template06.NewRow();
+                    objdt_template06.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template06.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF06 + dbl_BH06 + dbl_BJ06 + dbl_BL06;
+                    objdt_template06.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template06.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ06;
+                    objdt_template06.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template06, boo_open, str_saved + @"\BM019-JUN-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template07.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template07.NewRow();
+                    objdt_template07.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template07.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF07 + dbl_BH07 + dbl_BJ07 + dbl_BL07;
+                    objdt_template07.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template07.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ07;
+                    objdt_template07.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template07, boo_open, str_saved + @"\BM019-JUL-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template08.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template08.NewRow();
+                    objdt_template08.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template08.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF08 + dbl_BH08 + dbl_BJ08 + dbl_BL08;
+                    objdt_template08.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template08.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ08;
+                    objdt_template08.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template08, boo_open, str_saved + @"\BM019-AUG-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template09.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template09.NewRow();
+                    objdt_template09.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template09.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF09 + dbl_BH09 + dbl_BJ09 + dbl_BL09;
+                    objdt_template09.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template09.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ09;
+                    objdt_template09.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template09, boo_open, str_saved + @"\BM019-SEP-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template10.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template10.NewRow();
+                    objdt_template10.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template10.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF10 + dbl_BH10 + dbl_BJ10 + dbl_BL10;
+                    objdt_template10.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template10.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ10;
+                    objdt_template10.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template10, boo_open, str_saved + @"\BM019-OCT-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template11.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template11.NewRow();
+                    objdt_template11.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template11.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF11 + dbl_BH11 + dbl_BJ11 + dbl_BL11;
+                    objdt_template11.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template11.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ11;
+                    objdt_template11.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template11, boo_open, str_saved + @"\BM019-NOV-" + str_savef + ".xlsx");
+                }
+                //---------------------------------------------------------------------------------------------------------------
+                if (objdt_template12.Rows.Count > 0)
+                {
+                    #region "Compute Hash Total"
+                    dtworkRow = objdt_template12.NewRow();
+                    objdt_template12.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template12.NewRow();
+                    dtworkRow[0] = "Total Premium:";
+                    dtworkRow[1] = dbl_BF12 + dbl_BH12 + dbl_BJ12 + dbl_BL12;
+                    objdt_template12.Rows.Add(dtworkRow);
+
+                    dtworkRow = objdt_template12.NewRow();
+                    dtworkRow[0] = "Total Sum at Risk:";
+                    dtworkRow[1] = dbl_BZ12;
+                    objdt_template12.Rows.Add(dtworkRow);
+                    #endregion
+                    objHlpr.fn_savemultiple(objdt_template12, boo_open, str_saved + @"\BM019-DEC-" + str_savef + ".xlsx");
+                }
+
+                /////
+                eapp.DisplayAlerts = false;
+                wsraw = null;
+                wbraw.SaveAs(str_raw, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
+                            Type.Missing, Type.Missing);
+                wbraw.Close();
+                wbraw = null;
+                eapp = null;
+                ////
+                dtworkRow = null; //Dispose datarow
+
+
+                objdt_template01.Dispose();
+                objdt_template01 = null;
+                objdt_template02.Dispose();
+                objdt_template02 = null;
+                objdt_template03.Dispose();
+                objdt_template03 = null;
+                objdt_template04.Dispose();
+                objdt_template04 = null;
+                objdt_template05.Dispose();
+                objdt_template05 = null;
+                objdt_template06.Dispose();
+                objdt_template06 = null;
+                objdt_template07.Dispose();
+                objdt_template07 = null;
+                objdt_template08.Dispose();
+                objdt_template08 = null;
+                objdt_template09.Dispose();
+                objdt_template09 = null;
+                objdt_template10.Dispose();
+                objdt_template10 = null;
+                objdt_template11.Dispose();
+                objdt_template11 = null;
+                objdt_template12.Dispose();
+                objdt_template12 = null;
+
+                objHlpr.fn_killexcel();
+                objHlpr = null;
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message + Environment.NewLine + " *****On excel row line: " + rowcount + " *****";
+            }
+
+        }
+    }
+}

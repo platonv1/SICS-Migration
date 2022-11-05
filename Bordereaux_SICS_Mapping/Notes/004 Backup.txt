@@ -1,0 +1,402 @@
+﻿ if (str_sheet.ToUpper().Contains("NOV - TRAD") || str_sheet.ToUpper().Contains("DEC - TRAD") || str_sheet.ToUpper().Contains("FEB - TRAD") || str_sheet.ToUpper().Contains("JAN - TRAD") || str_sheet.ToUpper().Contains("MAR - TRAD")
+                    || str_sheet.ToUpper().Contains("APR - TRAD") || str_sheet.ToUpper().Contains("MAY - TRAD") || str_sheet.ToUpper().Contains("JUN - TRAD") || str_sheet.ToUpper().Contains("JUL - TRAD") || str_sheet.Contains("Aug - Trad")
+                    || str_sheet.ToUpper().Contains("JUL - TRAD") || str_sheet.ToUpper().Contains("OCT - TRAD")
+                    || str_sheet.ToUpper().Contains("NOV - AccDD") || str_sheet.ToUpper().Contains("DEC - AccDD") || str_sheet.ToUpper().Contains("JAN- AccDD") || str_sheet.ToUpper().Contains("NOV - UL")
+                    || str_sheet.ToUpper().Contains("DEC - UL") || str_sheet.ToUpper().Contains("JAN - UL") || str_sheet.ToUpper().Contains("NOV - FAC") || str_sheet.ToUpper().Contains("DEC - FAC")
+                    || str_sheet.ToUpper().Contains("JAN - FAC"))
+                {
+
+                    while (rowcount != erawrow + 2)
+                    {
+                        chck = int.TryParse(polnum, out storee);
+                        polnum = objHlpr.fn_stringcleanup(polnum);
+
+
+                        if (polnum == string.Empty && chck == false)
+                        {
+                            findboo = false;
+
+                            comparestring = new string[] { "FIRST", "NEW" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TNEWBUS";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "RENEWAL" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TRENEW";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "REINSTATEMENT", "REINSTATED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TREINS";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "TERMINATION", "TERMINATED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TCONTER";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "CANCELLED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TCANCINC";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "EXPIRY", "EXPIRED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TEXPIRY";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "EXTENDED", "TERM", "ETI" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TEXTTER";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "MATURITY", "MATURED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TFULLMAT";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "FULL PAID-UP", "FULL PAID UP", "PAID UP", "FULLY PAID-UP", "FULLY PAID-UP" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TFULLPU";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "FULL RECAPTURE", "RECAPTURED", "RECAP", "PARTIAL RECAP", "FULL RECAP", "PARTIAL RECAPTURED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TFULLREC";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "SURRENDERED", "SURRENDER", "FULL SURRENDERED" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TFULLSUR";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "LAPSE", "LAPSED", "LAPSES/SURRENDERS" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "TLAPSE";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+                            comparestring = new string[] { "RECOVERIES", "OTHERS" };
+                            foreach (string s in comparestring)
+                            {
+                                switch (polnum.Contains(s))
+                                {
+                                    case true:
+                                        TRANCODE = "ADJUST";
+                                        findboo = true;
+                                        break;
+                                }
+                            }
+
+                            if (!findboo)
+                            {
+                                TRANCODE = "ADJUST";
+                            }
+
+                            if (curr.ToUpper().Contains("PESO"))///////////////////////////////////////////////////////////
+                            {
+                                currency = "PHP";
+                            }
+                            else if ((curr.ToUpper().Contains("DOLLAR")) || (curr.ToUpper().Contains("$")))
+                            {
+                                currency = "USD";
+                            }
+
+                        }
+                        else if (polnum != string.Empty && chck == true)
+                        {
+                            int year1;
+                            dtworkRow = objdt_template.NewRow();
+                            year = oDate.Year.ToString();
+                            year1 = Convert.ToInt32(year);
+
+                            dtworkRow[0] = "RB" + polnum;
+                            dtworkRow[5] = code.ToString();
+                            dtworkRow[8] = "SURPLUS";
+                            dtworkRow[9] = "PAFM";
+                            dtworkRow[10] = "S";
+                            dtworkRow[13] = "IND";
+                            dtworkRow[14] = "T";
+                            dtworkRow[19] = effective.ToString();
+                            dtworkRow[22] = effective.ToString();
+                            //dtworkRow[20] = pstart.ToString();
+                            dtworkRow[24] = "YLY";
+                            dtworkRow[25] = orig.ToString();
+                            // dtworkRow[26] = ceded.ToString();
+                            dtworkRow[28] = orig.ToString();
+                            dtworkRow[29] = "NATREID";
+                            dtworkRow[79] = age.ToString();
+                            if (gender.ToUpper().Contains("FEMALE"))
+                            {
+                                dtworkRow[36] = "F";
+
+                            }
+                            else
+                            {
+                                dtworkRow[36] = "M";
+                            }
+
+                            #region "New Requirements - No DOB"
+                            if (String.IsNullOrEmpty(dob))
+                            {
+                                dob = "7/1/1900";
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR4AL" : dtworkRow[76].ToString() + "|BR4AL";
+                            }
+                            #endregion
+
+                            dtworkRow[37] = dob.ToString();
+
+                            dtworkRow[38] = "NONE";
+                            dtworkRow[39] = rating.ToString();
+                            dtworkRow[23] = currency;
+
+
+                            int effective1;
+                           oDate = Convert.ToDateTime(effective);
+                            effective =  oDate.Year.ToString();
+                            effective1 = Convert.ToInt32(effective);
+
+                            if (year1 >= effective1)
+                            {
+                                dtworkRow[21] = "TRENEW";
+                                dtworkRow[58] = "4001";
+                                dtworkRow[59] = prem.ToString();
+                            }
+
+                            else if (year1 < effective1)
+                            {
+                                dtworkRow[21] = "TNEWBUS";
+                                dtworkRow[56] = "4000";
+                                dtworkRow[57] = prem.ToString();
+                            }
+
+
+                            #region "New Requirements - No Name"
+                            if (String.IsNullOrEmpty(fullname))
+                            {
+                                fullname = polnum.ToString();
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR6AF" : dtworkRow[76].ToString() + "|BR6AF";
+                            }
+
+                            #endregion
+
+                            objHlpr.fn_getnamesandlifeID(fullname, dob, out string str_outfname, out string str_outlname, out string str_outlifeid, "000");
+
+                            string str_MI = objHlpr.fn_getMI(str_outfname);
+                            dtworkRow[34] = str_MI;
+
+                            dtworkRow[31] = objHlpr.fn_stringcleanup(fullname);
+                            dtworkRow[32] = str_outlname;
+
+                            dtworkRow[33] = str_outfname.Replace(" " + str_MI, string.Empty);
+
+                            dtworkRow[30] = str_outlifeid;
+
+                            if (String.IsNullOrEmpty(gender) && !String.IsNullOrEmpty(str_gender))
+                            {
+                                dtworkRow[36] = objHlpr.fn_getgender(str_gender, str_outfname, dtworkRow.Table.Columns[36].ColumnName);
+                            }
+
+                            #region "New Requirements"
+                            dtworkRow[26] = string.Empty;
+
+                            if (!String.IsNullOrEmpty(dtworkRow[27].ToString())
+                                &&
+                                String.IsNullOrEmpty(dtworkRow[77].ToString()))
+                            {
+                                dtworkRow[77] = dtworkRow[27];
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR1-1BZ" : dtworkRow[76].ToString() + "|BR1-1BZ";
+                            }
+                            else if (!String.IsNullOrEmpty(dtworkRow[25].ToString())
+                                &&
+                                String.IsNullOrEmpty(dtworkRow[77].ToString()))
+                            {
+                                dtworkRow[75] = dtworkRow[25];
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR1-2BZ" : dtworkRow[76].ToString() + "|BR1-2BZ";
+                            }
+
+                            if (!String.IsNullOrEmpty(dtworkRow[77].ToString())
+                                &&
+                                String.IsNullOrEmpty(dtworkRow[27].ToString()))
+                            {
+                                dtworkRow[27] = dtworkRow[77];
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR2-1AB" : dtworkRow[76].ToString() + "|BR2-1AB";
+                            }
+                            else if (!String.IsNullOrEmpty(dtworkRow[25].ToString())
+                                &&
+                                String.IsNullOrEmpty(dtworkRow[27].ToString()))
+                            {
+                                dtworkRow[27] = dtworkRow[25];
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR2-2AB" : dtworkRow[76].ToString() + "|BR2-2AB";
+                            }
+
+                            if (!String.IsNullOrEmpty(dtworkRow[27].ToString())
+                                &&
+                                String.IsNullOrEmpty(dtworkRow[25].ToString()))
+                            {
+                                dtworkRow[25] = dtworkRow[27];
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR3-1Z" : dtworkRow[76].ToString() + "|BR3-1Z";
+                            }
+                            else if (!String.IsNullOrEmpty(dtworkRow[77].ToString())
+                                &&
+                                String.IsNullOrEmpty(dtworkRow[25].ToString()))
+                            {
+                                dtworkRow[25] = dtworkRow[77];
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR3-2Z" : dtworkRow[76].ToString() + "|BR3-2Z";
+                            }
+
+                            var parsedDOB = DateTime.Parse(dob);
+                            string initialNR = string.Empty;
+                            if (!String.IsNullOrEmpty(str_outfname))
+                            {
+                                initialNR = str_outfname.Substring(0, 1);
+                            }
+                            if (!String.IsNullOrEmpty(str_outlname))
+                            {
+                                initialNR += str_outlname.Substring(0, 1);
+                            }
+
+                            if (dtworkRow[13].ToString() == "GRP" || dtworkRow[13].ToString() == "GCL" || dtworkRow[13].ToString() == "GEB")
+                            {
+                                if (dtworkRow[0].ToString().Length >= 7)
+                                {
+                                    dtworkRow[0] = dtworkRow[0].ToString().Substring(dtworkRow[0].ToString().Length - 7, 7) +
+                                        initialNR +
+                                        parsedDOB.Month.ToString().PadLeft(2, '0') + parsedDOB.Day.ToString().PadLeft(2, '0') + parsedDOB.Year;
+                                }
+                                else
+                                {
+                                    dtworkRow[0] = dtworkRow[0].ToString() +
+                                        initialNR +
+                                        parsedDOB.Month.ToString().PadLeft(2, '0') + parsedDOB.Day.ToString().PadLeft(2, '0') + parsedDOB.Year;
+                                }
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR5-1A" : dtworkRow[76].ToString() + "|BR5-1A";
+
+                                dtworkRow[1] = polnum.ToString() + gender.Substring(0, 1);
+                                dtworkRow[76] = String.IsNullOrEmpty(dtworkRow[76].ToString()) ? "BR5-2B" : dtworkRow[76].ToString() + "|BR5-2B";
+
+                                dtworkRow[7] = polnum.ToString();
+                            }
+                            else
+                            {
+                                dtworkRow[1] = string.Empty;
+                                dtworkRow[7] = string.Empty;
+                            }
+
+                            dtworkRow[19] = dtworkRow[20];
+
+                            dbl_BF += decimal.Parse(
+                                String.IsNullOrEmpty(dtworkRow[57].ToString()) ? "0" : dtworkRow[57].ToString()
+                                );
+                            dbl_BH += decimal.Parse(
+                                String.IsNullOrEmpty(dtworkRow[59].ToString()) ? "0" : dtworkRow[59].ToString()
+                                );
+                            dbl_BJ += decimal.Parse(
+                                String.IsNullOrEmpty(dtworkRow[61].ToString()) ? "0" : dtworkRow[61].ToString()
+                                );
+                            dbl_BL += decimal.Parse(
+                                String.IsNullOrEmpty(dtworkRow[63].ToString()) ? "0" : dtworkRow[63].ToString()
+                                );
+                            dbl_BZ += decimal.Parse(
+                                String.IsNullOrEmpty(dtworkRow[77].ToString()) ? "0" : dtworkRow[77].ToString()
+                                );
+                            #endregion
+
+                            objdt_template.Rows.Add(dtworkRow);// inpu8trow+++
+                        }
+
+                        prawrow++;
+                        curr = wsraw.Cells[prawrow, 1].Text.ToString();
+                        polnum = wsraw.Cells[prawrow, 2].Text.ToString();
+                        code = wsraw.Cells[prawrow, 3].Text.ToString();
+                        effective = wsraw.Cells[prawrow, 4].Text.ToString();
+                        dob = wsraw.Cells[prawrow, 7].Text.ToString();
+                        gender = wsraw.Cells[prawrow, 5].Text.ToString();
+                        rating = wsraw.Cells[prawrow, 9].Text.ToString();
+                        orig = wsraw.Cells[prawrow, 11].Text.ToString();
+                        fullname = wsraw.Cells[prawrow, 6].Text.ToString();
+                        prem = wsraw.Cells[prawrow, 14].Text.ToString();
+                        age = wsraw.Cells[prawrow, 8].Text.ToString();
+                        rowcount++;
+                    }
+                }
+                
+                else if (str_sheet.Contains("Nov - CI 100") || str_sheet.Contains("Dec - CI 100") || str_sheet.Contains("Jan - CI 100"))
+                {
+
+                   
+
+
+                }

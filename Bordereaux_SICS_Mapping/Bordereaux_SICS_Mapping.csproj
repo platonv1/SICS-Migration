@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A72B9319-05A9-433B-A5C5-B53567571DE8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Bordereaux_SICS_Mapping</RootNamespace>
+    <AssemblyName>Bordereaux_SICS_Mapping</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>G:\Shared drives\SICS Migration Project\Repository\Version 35\Latest Program\Release 119.4\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>267</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Export.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>787EA7C130FC5F9BE5E35134345981C4C44D2C3F</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Bordereaux_SICS_Mapping_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BAL\BM001.cs" />
+    <Compile Include="BAL\BM001A.cs" />
+    <Compile Include="BAL\BM003.cs" />
+    <Compile Include="BAL\BM004.cs" />
+    <Compile Include="BAL\BM005.cs" />
+    <Compile Include="BAL\BM007.cs" />
+    <Compile Include="BAL\BM009.cs" />
+    <Compile Include="BAL\BM010.cs" />
+    <Compile Include="BAL\BM011.cs" />
+    <Compile Include="BAL\BM013 - A.cs" />
+    <Compile Include="BAL\BM013-CGL22.cs" />
+    <Compile Include="BAL\BM013.cs" />
+    <Compile Include="BAL\BM014 - A.cs" />
+    <Compile Include="BAL\BM014-CBL22.cs" />
+    <Compile Include="BAL\BM014.cs" />
+    <Compile Include="BAL\BM015 - A.cs" />
+    <Compile Include="BAL\BM015 - B.cs" />
+    <Compile Include="BAL\BM015.cs" />
+    <Compile Include="BAL\BM016 - A.cs" />
+    <Compile Include="BAL\BM016 - B.cs" />
+    <Compile Include="BAL\BM016 - C.cs" />
+    <Compile Include="BAL\BM016 - Facul22.cs" />
+    <Compile Include="BAL\BM016.cs" />
+    <Compile Include="BAL\BM019 - A.cs" />
+    <Compile Include="BAL\BM019.cs" />
+    <Compile Include="BAL\BM020.cs" />
+    <Compile Include="BAL\BM021 - A.cs" />
+    <Compile Include="BAL\BM021.cs" />
+    <Compile Include="BAL\BM022.cs" />
+    <Compile Include="BAL\BM023.cs" />
+    <Compile Include="BAL\BM024.cs" />
+    <Compile Include="BAL\BM025.cs" />
+    <Compile Include="BAL\BM026.cs" />
+    <Compile Include="BAL\BM030.cs" />
+    <Compile Include="BAL\BM031.cs" />
+    <Compile Include="BAL\BM032.cs" />
+    <Compile Include="BAL\BM033.cs" />
+    <Compile Include="BAL\BM041_NB_new.cs" />
+    <Compile Include="BAL\BM041_NB.cs" />
+    <Compile Include="BAL\BM041_PRIOR.cs" />
+    <Compile Include="BAL\BM041_PTF_new.cs" />
+    <Compile Include="BAL\BM041_PTF.cs" />
+    <Compile Include="BAL\BM042.cs" />
+    <Compile Include="BAL\BM043.cs" />
+    <Compile Include="BAL\BM044.cs" />
+    <Compile Include="BAL\BM048.cs" />
+    <Compile Include="BAL\BM049.cs" />
+    <Compile Include="BAL\BM051.cs" />
+    <Compile Include="BAL\BM052.cs" />
+    <Compile Include="BAL\BM053.cs" />
+    <Compile Include="BAL\BM059.cs" />
+    <Compile Include="BAL\BM060.cs" />
+    <Compile Include="BAL\BM061 - RA.cs" />
+    <Compile Include="BAL\BM061.cs" />
+    <Compile Include="BAL\BM062.cs" />
+    <Compile Include="BAL\BM063.cs" />
+    <Compile Include="BAL\BM064.cs" />
+    <Compile Include="BAL\BM065.cs" />
+    <Compile Include="BAL\BM066.cs" />
+    <Compile Include="BAL\BM067.cs" />
+    <Compile Include="BAL\BM068.cs" />
+    <Compile Include="BAL\BM069.cs" />
+    <Compile Include="BAL\BM070.cs" />
+    <Compile Include="BAL\BM072.cs" />
+    <Compile Include="BAL\BM073.cs" />
+    <Compile Include="BAL\BM074.cs" />
+    <Compile Include="BAL\BM090.cs" />
+    <Compile Include="BAL\BM096.cs" />
+    <Compile Include="BAL\BM097.cs" />
+    <Compile Include="BAL\BM098.cs" />
+    <Compile Include="BAL\BM099.cs" />
+    <Compile Include="BAL\BM106.cs" />
+    <Compile Include="BAL\BM117.cs" />
+    <Compile Include="BAL\BM123.cs" />
+    <Compile Include="BAL\BM141.cs" />
+    <Compile Include="BAL\BM041_21.cs" />
+    <Compile Include="BAL\HelperV21.cs" />
+    <Compile Include="BAL\_Global.cs" />
+    <Compile Include="BAL\BM016 - IND22.cs" />
+    <Compile Include="Forms\B2SM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\B2SM.Designer.cs">
+      <DependentUpon>B2SM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BAL\Helper.cs" />
+    <Compile Include="Forms\MacroDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MacroDB.Designer.cs">
+      <DependentUpon>MacroDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InsertGender.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InsertGender.Designer.cs">
+      <DependentUpon>InsertGender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PolicyYear.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PolicyYear.Designer.cs">
+      <DependentUpon>PolicyYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\B2SM.resx">
+      <DependentUpon>B2SM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MacroDB.resx">
+      <DependentUpon>MacroDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InsertGender.resx">
+      <DependentUpon>InsertGender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PolicyYear.resx">
+      <DependentUpon>PolicyYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Bordereaux_SICS_Mapping_TemporaryKey.pfx" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Export.ico" />
+    <Content Include="Notes\004 Backup.txt" />
+    <Content Include="Notes\019.txt" />
+    <Content Include="Notes\030.txt" />
+    <Content Include="Notes\123.txt" />
+    <Content Include="Notes\BM022.txt" />
+    <Content Include="Notes\BM024 Backup.txt" />
+    <Content Include="Notes\BM031.txt" />
+    <Content Include="Notes\Code Sample.txt" />
+    <Content Include="Notes\Gender.txt" />
+    <Content Include="Notes\LIFEID.txt" />
+    <Content Include="Notes\PHASE2-NewBM.txt" />
+    <None Include="Resources\Database.png" />
+    <None Include="Resources\MF.png" />
+    <None Include="Resources\plus sign.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
